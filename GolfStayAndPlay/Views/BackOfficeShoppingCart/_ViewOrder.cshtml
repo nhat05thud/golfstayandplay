@@ -1,0 +1,36 @@
+﻿@inherits UmbracoViewPage<GolfStayAndPlay.Models.BackOffice.OrderViewModel>
+@{ 
+    var package = Umbraco.Content(Model.PackageId);
+}
+<style type="text/css">
+    .group-information {
+        padding: 0 0 15px;
+    }
+
+    .group-products > h1 {
+        font-size: 18px;
+        margin: 0 0 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .wrap-cart-detail * {
+        -webkit-box-sizing: border-box !important;
+        box-sizing: border-box !important;
+    }
+</style>
+<div class="wrap-cart-detail">
+    <div class="group-information">
+        <p><b>Email:</b> @Model.Email</p>
+        <p><b>First Name:</b> @Model.FirstName</p>
+        <p><b>Last Name:</b> @Model.LastName</p>
+        <p><b>Address:</b> @Model.Address</p>
+        <p><b>City: </b> @Model.City</p>
+        <p><b>State: </b> @Model.State</p>
+        <p><b>Country: </b> @Model.Country</p>
+        <p><b>Phone:</b> @Model.Phone</p>
+        <p><b>Package:</b> <a href="@package.Url(mode: UrlMode.Absolute)">@package.Name</a></p>
+        <p><b>Price:</b> $@package.Value("price")</p>
+    </div>
+</div>
+

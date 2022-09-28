@@ -1,0 +1,53 @@
+﻿﻿@inherits UmbracoViewPage<GolfStayAndPlay.Models.OurModel>
+
+@Html.AntiForgeryToken()
+<div class="row">
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.FirstName, new { placeholder = Html.DisplayNameFor(n => n.FirstName), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.FirstName)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.LastName, new { placeholder = Html.DisplayNameFor(n => n.LastName), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.LastName)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.Email, new { placeholder = Html.DisplayNameFor(n => n.Email), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.Email)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.Phone, new { placeholder = Html.DisplayNameFor(n => n.Phone), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.Phone)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.ArrivalDate, new { placeholder = Html.DisplayNameFor(n => n.ArrivalDate), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.ArrivalDate)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.DepartureDate, new { placeholder = Html.DisplayNameFor(n => n.DepartureDate), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.DepartureDate)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.PartnerResortBook, new { placeholder = Html.DisplayNameFor(n => n.PartnerResortBook), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.PartnerResortBook)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.PricePerGolfer, new { placeholder = Html.DisplayNameFor(n => n.PricePerGolfer), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.PricePerGolfer)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.ConfirmationNumber, new { placeholder = Html.DisplayNameFor(n => n.ConfirmationNumber), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.ConfirmationNumber)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.NumberOfPlayer, new { placeholder = Html.DisplayNameFor(n => n.NumberOfPlayer), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.NumberOfPlayer)
+    </p>
+    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextAreaFor(model => model.Message, new { placeholder = Html.DisplayNameFor(n => n.Message), autocomplete = "off" })
+    </p>
+    <div class="col-12">
+        <button type="submit">Send message</button>
+    </div>
+</div>
+<div class="loading_div"></div>
+@Html.HiddenFor(x => x.CultureLcid)

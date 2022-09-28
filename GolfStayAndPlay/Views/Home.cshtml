@@ -1,0 +1,173 @@
+﻿@using Umbraco.Web.Models
+@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var bannerImage = Model.Value<IPublishedContent>("bannerImage");
+    var bannerOverlay = Model.Value<IPublishedContent>("bannerOverlay");
+}
+
+<div id="banner" style="@(bannerImage != null ? "background-image: url("+ bannerImage.Url() +")" : "")">
+    <div class="banner-bg-text"><div class="bg-text" style="@(bannerOverlay != null ? "background-image: url("+ bannerOverlay.Url() +")" : "")"></div></div>
+    <div class="banner-overlay"></div>
+    <div class="banner-text">
+        <h1>@(Model.Value<string>("bannerTitle").ToUpper())</h1>
+    </div>
+</div>
+@{
+    var ourDifference = Model.DescendantOfType("about");
+}
+@if (ourDifference != null)
+{
+    var images = ourDifference.Value<IEnumerable<IPublishedContent>>("homeImages");
+    var packageUrl = ourDifference.Value<IPublishedContent>("packageUrl");
+    <section class="section-our-difference">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 masonry-image-grid">
+                    <div class="grid d-flex justify-content-between align-items-center flex-wrap">
+                        @if (images != null && images.Any())
+                        {
+                            foreach (var item in images.Take(6))
+                            {
+                                <div class="item">
+                                    <a href="@item.Url()" data-fancybox="gallery" class="image" style="background-image: url(@item.GetCropUrl(300, 300, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))"></a>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="col-lg-6 masonty-content">
+                    <div class="heading-page">@ourDifference.Name.ToUpper()</div>
+                    <div class="heading-title">@(ourDifference.Value<string>("title").ToUpper())</div>
+                    <div class="description">
+                        @ourDifference.Value("description")
+                    </div>
+                    <div class="content">
+                        @ourDifference.Value("content")
+                    </div>
+                    @if (packageUrl != null)
+                    {
+                        <a href="@packageUrl.Url()" class="learn-more"><i aria-hidden="true" class="fas fa-golf-ball"></i> @ourDifference.Value("packageButtonText")</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+}
+@{
+    var packages = Model.DescendantOfType("packages");
+}
+@if (packages != null)
+{
+    <section class="section-package">
+        <div class="container">
+            <div class="heading">
+                <h2 class="main-heading-title">@(packages.Value<string>("perfectPackageTitle").ToUpper())</h2>
+                <div class="heading-description">
+                    @packages.Value("perfectPackageContent")
+                </div>
+            </div>
+            @{
+                var lstPackages = packages.DescendantsOfType("package").OrderByDescending(x => x.CreateDate).Take(5);
+            }
+            <div class="packages-swiper swiper">
+                <div class="swiper-wrapper">
+                    @foreach (var item in lstPackages)
+                    {
+                        var thumb = item.Value<IPublishedContent>("image");
+                        <div class="swiper-slide">
+                            <a href="@item.Url()">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(370, 370, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/370x370")" alt="@item.Name">
+                            </a>
+                            <div class="package-content">
+                                <h5 class="package-title">@item.Name</h5>
+                                <div class="package-text">
+                                    @item.Value("description")
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="swiper-next"><i aria-hidden="true" class="fas fa-angle-right"></i></div>
+                <div class="swiper-prev"><i aria-hidden="true" class="fas fa-angle-left"></i></div>
+            </div>
+        </div>
+    </section>
+}
+@{
+    var destinations = Model.DescendantOfType("destinations");
+}
+@if (destinations != null)
+{
+    <section class="section-package">
+        <div class="container">
+            <div class="heading">
+                <h2 class="main-heading-title">@(destinations.Value<string>("homeTitle").ToUpper())​</h2>
+                <div class="heading-description">
+                    @destinations.Value("homeDescription")
+                </div>
+            </div>
+            @{
+                var lstDestinations = destinations.DescendantsOfType("destination").OrderByDescending(x => x.CreateDate).Take(5);
+            }
+            <div class="packages-swiper swiper">
+                <div class="swiper-wrapper">
+                    @foreach (var item in lstDestinations)
+                    {
+                        var thumb = item.Value<IPublishedContent>("image");
+                        <div class="swiper-slide">
+                            <a href="@item.Url()">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(370, 370, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/370x370")" alt="@item.Name">
+                            </a>
+                            <div class="package-content">
+                                <h5 class="package-title">@item.Name</h5>
+                                <div class="package-text">
+                                    @item.Value("description")
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="swiper-next"><i aria-hidden="true" class="fas fa-angle-right"></i></div>
+                <div class="swiper-prev"><i aria-hidden="true" class="fas fa-angle-left"></i></div>
+            </div>
+        </div>
+    </section>
+}
+@{
+    var tripIdeas = Model.DescendantOfType("tripIdeas");
+}
+@if (tripIdeas != null)
+{
+    <section class="section-package">
+        <div class="container">
+            <div class="heading">
+                <h2 class="main-heading-title">@(tripIdeas.Value<string>("homeTitle").ToUpper())</h2>
+                <div class="heading-description">
+                    @tripIdeas.Value("homeDescription")
+                </div>
+            </div>
+            @{
+                var lstTripIdeas = destinations.DescendantsOfType("tripIdea").OrderByDescending(x => x.CreateDate).Take(5);
+            }
+            <div class="trip-ideas-swiper swiper">
+                <div class="swiper-wrapper">
+                    @foreach (var item in lstTripIdeas)
+                    {
+                        var thumb = item.Value<IPublishedContent>("image");
+                        <div class="swiper-slide">
+                            <a href="@item.Url()">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(370, 370, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/370x370")" alt="@item.Name">
+                            </a>
+                            <div class="trip-content">
+                                <h4 class="trip-title">@item.Name</h4>
+                                <a class="trip-button" href="@item.Url()">@Umbraco.GetDictionaryValue("TripIdea.ReadMore")</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="swiper-next"><i aria-hidden="true" class="fas fa-angle-right"></i></div>
+                <div class="swiper-prev"><i aria-hidden="true" class="fas fa-angle-left"></i></div>
+            </div>
+        </div>
+    </section>
+}

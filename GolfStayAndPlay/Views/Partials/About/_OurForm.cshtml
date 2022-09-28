@@ -1,0 +1,21 @@
+﻿@inherits UmbracoViewPage<GolfStayAndPlay.Models.OurModel>
+
+@using (Ajax.BeginForm("HandleOurForm", "About", 
+    null, 
+    new AjaxOptions { UpdateTargetId = "contentAjaxForm", HttpMethod = "POST", OnSuccess = "onSuccess", OnFailure = "onFailure" }, 
+    new { id = "ourForm", @class = "out-form" })
+)
+{
+    <div id="contentAjaxForm">
+        @Html.Partial("~/Views/Partials/About/_Form.cshtml", Model)
+    </div>
+}
+<script>
+    $("#ourForm").on('submit', function () {
+        setTimeout(function () {
+            if (!$("input, textarea, select").hasClass("input-validation-error")) {
+                $(".loading_div").css("display", "block");
+            }
+        });
+    });
+</script>

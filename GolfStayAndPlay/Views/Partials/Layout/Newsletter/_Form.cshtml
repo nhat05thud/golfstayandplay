@@ -1,0 +1,11 @@
+﻿﻿@inherits UmbracoViewPage<GolfStayAndPlay.Models.NewsletterModel>
+@{
+    var home = Umbraco.AssignedContentItem.Root();
+}
+@Html.AntiForgeryToken()
+<div>
+    @Html.TextBoxFor(model => model.Email, new { placeholder = home.Value("newsletterPlaceholder"), autocomplete = "email", required = "" })
+    <button type="submit"><i aria-hidden="true" class="fas fa-chevron-circle-right"></i></button>
+</div>
+@Html.ValidationMessageFor(x => x.Email)
+@Html.HiddenFor(x => x.CultureLcid)

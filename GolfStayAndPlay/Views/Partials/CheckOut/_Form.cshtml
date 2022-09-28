@@ -1,0 +1,49 @@
+﻿@using GolfStayAndPlay.Models
+@using Umbraco.Web.Models
+@inherits UmbracoViewPage<GolfStayAndPlay.Models.CheckOutModel>
+@{
+    var home = Umbraco.ContentAtRoot().FirstOrDefault();
+    var checkout = home.DescendantOfType("checkout");
+    var cart = home.DescendantOfType("cart");
+}
+@Html.AntiForgeryToken()
+<div class="row">
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.FirstName, new { placeholder = Html.DisplayNameFor(n => n.FirstName), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.FirstName)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.LastName, new { placeholder = Html.DisplayNameFor(n => n.LastName), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.LastName)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.Email, new { placeholder = Html.DisplayNameFor(n => n.Email), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.Email)
+    </p>
+    <p class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.Phone, new { placeholder = Html.DisplayNameFor(n => n.Phone), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.Phone)
+    </p>
+    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.Address, new { placeholder = Html.DisplayNameFor(n => n.Address), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.Address)
+    </p>
+    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.City, new { placeholder = Html.DisplayNameFor(n => n.City), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.City)
+    </p>
+    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.State, new { placeholder = Html.DisplayNameFor(n => n.State), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.State)
+    </p>
+    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.Country, new { placeholder = Html.DisplayNameFor(n => n.Country), autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.Country)
+    </p>
+    <div class="col-12">
+        <button type="submit">Order</button>
+    </div>
+</div>
+@Html.HiddenFor(x => x.PackageId)
+@Html.HiddenFor(x => x.CultureLcid)
+<div class="loading_div"></div>

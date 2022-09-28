@@ -1,0 +1,14 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+}
+<div class="container mgb-120">
+    <div class="jumbotron">
+        @Model.Value("content")
+    </div>
+</div>
+@if (Request.Params["data"] != null)
+{
+    <script>
+            window.location.href = '@Model.Url(mode: UrlMode.Absolute)';
+    </script>
+}

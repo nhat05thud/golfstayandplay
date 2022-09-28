@@ -1,0 +1,109 @@
+﻿@using Xaviasale.ClassHelper
+<style>
+    input[type="text"] {
+        padding: 6px;
+        width: 100%;
+        border-radius: 4px;
+    }
+
+    .daterangepicker {
+        z-index: 99999;
+    }
+    #btn-send {
+        width: 150px;
+        height: 35px;
+        font-weight: bold;
+        color: #fff;
+        border: 0;
+        background: #006fce;
+        cursor: pointer;
+    }
+    .wrap-border {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+</style>
+<div class="row">
+    <div class="col-6">
+        <input type="text" name="daterange" class="form-control" value="" />
+    </div>
+    <div class="col-3">
+        <div class="wrap-border">
+            <p style="font-size: 16px;" id="total"><b>Orders: <span id="totalOrders"></span></b></p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="wrap-border">
+            <p style="font-size: 16px;" id="total"><b>Total: <span id="totalPrice"></span></b></p>
+        </div>
+    </div>
+    <p>&nbsp;</p>
+    <div class="col-12">
+        <div id="grid-product"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+        }, function (start, end, label) {
+            var gridData = $("#grid-product").data("kendoGrid");
+            gridData.destroy();
+            renderGrid(start, end);
+        });
+        renderGrid($('input[name="daterange"]').data('daterangepicker').startDate, $('input[name="daterange"]').data('daterangepicker').endDate);
+    });
+    function renderGrid(start, end) {
+        $("#grid-product").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/umbraco/surface/backofficeshoppingcart/GetStatisticByDateRange/?startDate=" + start + "&endDate=" + end,
+                },
+                pageSize: 20
+            },
+            noRecords: {
+                template: "No data available at this date."
+            },
+            height: 250,
+            groupable: false,
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            columns: [{
+                title: "No.",
+                field: "ItemNo",
+                width: 50
+            },
+            {
+                title: "Product Name",
+                template: "<a href='#= ProductUrl #' target='_blank'>#= ProductName #</a>"
+            },
+            {
+                field: "Quantity",
+                title: "Quantity"
+            },
+            {
+                title: "Product Color",
+                template: "#= Color #"
+            },
+            {
+                title: "Product Price",
+                template: "$ #= ProductPrice #"
+            }],
+            dataBound: function (e) {
+                var grid = $("#grid-product").data("kendoGrid");
+                var total_price = 0;
+                grid.dataSource.data().forEach(element => {
+                    total_price = total_price + (element.ProductPrice * element.Quantity);
+                });
+                $("#totalOrders").text(grid.dataSource.total());
+                $("#totalPrice").text("$ " + total_price + "");
+            }
+        });
+    }
+</script>

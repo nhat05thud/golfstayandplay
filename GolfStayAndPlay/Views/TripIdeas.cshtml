@@ -1,0 +1,108 @@
+﻿@using Umbraco.Web.Models
+@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var packages = Model.Root().DescendantOfType("packages");
+    var bannerNested = Model.Value<IEnumerable<IPublishedElement>>("bannerNested");
+}
+@if (bannerNested != null && bannerNested.Any())
+{
+    <section class="section-trip-idea">
+        <div class="container">
+            <div class="trip-slider swiper">
+                <div class="swiper-wrapper">
+                    @foreach (var item in bannerNested)
+                    {
+                        var thumb = item.Value<IPublishedContent>("image");
+                        var readmoreUrl = item.Value<Link>("readMoreUrl");
+                        <div class="swiper-slide">
+                            <img src="@(thumb != null ? thumb.GetCropUrl(370, 370, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/370x370")" alt="@item.Value("title")">
+                            <div class="content">
+                                <h2>@item.Value("title")</h2>
+                                <a href="@(readmoreUrl != null ? readmoreUrl.Url : "#")">@Umbraco.GetDictionaryValue("TripIdea.ReadMore")</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="swiper-next"><i aria-hidden="true" class="fas fa-angle-right"></i></div>
+                <div class="swiper-prev"><i aria-hidden="true" class="fas fa-angle-left"></i></div>
+            </div>
+        </div>
+    </section>
+}
+<section class="section-package">
+    <div class="container">
+        <div class="heading">
+            <h2 class="main-heading-title">@(packages.Value<string>("perfectPackageTitle").ToUpper())</h2>
+            <div class="heading-description">
+                @packages.Value("perfectPackageContent")
+            </div>
+        </div>
+        @{
+            var lstPackages = packages.DescendantsOfType("package").OrderByDescending(x => x.CreateDate).Take(3);
+        }
+        <div class="row package-list">
+            @foreach (var item in lstPackages)
+            {
+                var thumb = item.Value<IPublishedContent>("image");
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="package-item">
+                        <div class="img">
+                            <a href="@item.Url()">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(355, 235, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/355x235")" alt="@item.Name">
+                            </a>
+                            <span>@packages.Name</span>
+                        </div>
+                        <div class="content">
+                            <h3><a href="@item.Url()">@item.Name</a></h3>
+                            <div class="desc">
+                                @item.Value("description")
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <a href="@item.Url()" class="read-more">@Umbraco.GetDictionaryValue("PackageCate.CheckOutOfTheDeal") »</a>
+                                <span class="price">$@item.Value("price")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<section class="section-package">
+    <div class="container">
+        <div class="heading">
+            <h2 class="main-heading-title">@(Model.Value<string>("title").ToUpper())</h2>
+            <div class="heading-description">
+                @Model.Value("description")
+            </div>
+        </div>
+        @{
+            var lstTripIdeas = Model.Children;
+        }
+        <div class="row package-list">
+            @foreach (var item in lstTripIdeas)
+            {
+                var thumb = item.Value<IPublishedContent>("image");
+                <div class="col-lg-4">
+                    <div class="package-item">
+                        <div class="img">
+                            <a href="@item.Url()">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(355, 235, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/355x235")" alt="@item.Name">
+                            </a>
+                            <span>@packages.Name</span>
+                        </div>
+                        <div class="content">
+                            <h3><a href="@item.Url()">@item.Name</a></h3>
+                            <div class="desc">
+                                @item.Value("description")
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <a href="@item.Url()" class="read-more">@Umbraco.GetDictionaryValue("TripIdea.ReadMore") »</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

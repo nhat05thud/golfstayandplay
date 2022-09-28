@@ -1,0 +1,11 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+}
+<section class="section-content mgb-80">
+    <div class="container">
+        <h1 class="content-heading-title">@Model.Name</h1>
+        <div class="wrap-content">
+            @Model.Value("content")
+        </div>
+    </div>
+</section>

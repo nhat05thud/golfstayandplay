@@ -1,0 +1,27 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+}
+
+<section class="section-contact mgb-120">
+    <div class="container">
+        <h1 class="content-heading-title">@Model.Value("title")</h1>
+        @{
+            var contactNested = Model.Value<IEnumerable<IPublishedElement>>("contactNested");
+        }
+        @if (contactNested != null && contactNested.Any())
+        {
+            <div class="contact-wrap">
+                @foreach (var item in contactNested) 
+                {
+                    <div class="item">
+                        <h2>@item.Value("title")</h2>
+                        <div class="wrap-content">
+                            @item.Value("content")
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
+

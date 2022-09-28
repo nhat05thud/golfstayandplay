@@ -1,0 +1,188 @@
+﻿@using Umbraco.Web.Models
+@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var image = Model.Value<IPublishedContent>("image");
+    var planImage = Model.Value<IPublishedContent>("planImage");
+    var amenityImage = Model.Value<IPublishedContent>("amenityImage");
+    var courseImages = Model.Value<IEnumerable<IPublishedContent>>("courseImages");
+}
+<section class="description-detail">
+    <div class="container">
+        <div class="description-head">
+            <h1>@Model.Name</h1>
+            <div class="row">
+                <div class="col-lg-5 des-image">
+                    <img src="@(image != null ? image.GetCropUrl(458, 450, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/458x450")" alt="@Model.Name">
+                </div>
+                <div class="col-lg-7 des-content">
+                    <div class="heading">@Model.Value("title")</div>
+                    <div class="desc">
+                        @Model.Value("description")
+                    </div>
+                    @{
+                        var destinationNested = Model.Value<IEnumerable<IPublishedElement>>("destinationNested");
+                    }
+                    @if (destinationNested != null && destinationNested.Any())
+                    {
+                        <div class="head-list">
+                            @foreach (var item in destinationNested)
+                            {
+                                var thumb = item.Value<IPublishedContent>("image");
+                                <div class="item">
+                                    <figure class="image-box">
+                                        <img src="@(thumb != null ? thumb.GetCropUrl(50, 50, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "/images/head-1.png")" alt="@item.Value("title")">
+                                    </figure>
+                                    <div class="content-box">
+                                        @item.Value("content")
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="destination-tabs">
+            <div class="tab-control d-flex align-items-center justify-content-between">
+                <div class="item active"><a href="#" data-id="tab_1"><i aria-hidden="true" class="fas fa-list-alt"></i>Overview</a></div>
+                <div class="item"><a href="#" data-id="tab_2"><i aria-hidden="true" class="fas fa-plane"></i>TRAVEL PLAN</a></div>
+                <div class="item"><a href="#" data-id="tab_3"><i aria-hidden="true" class="nc-icon-outline furniture_bed-23"></i>Amenities</a></div>
+                <div class="item"><a href="#" data-id="tab_4"><i aria-hidden="true" class="fas fa-photo-video"></i>Course photos</a></div>
+                <div class="item"><a href="#" data-id="tab_5"><i aria-hidden="true" class="fas fa-video"></i>Course videos</a></div>
+            </div>
+            <div class="tab-content">
+                <div class="item active" id="tab_1">
+                    <div class="description-head">
+                        <div class="row">
+                            <div class="col-lg-6 des-image order-2">
+                                @Html.Raw(Model.Value("googleMaps"))
+                            </div>
+                            <div class="col-lg-6 des-content order-1">
+                                @Model.Value("overviewContent")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description-head">
+                        <div class="row">
+                            <div class="col-lg-6 des-image order-1">
+                                <img src="@(planImage != null ? planImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@Model.Value("planTitle")">
+                            </div>
+                            <div class="col-lg-6 des-content order-2">
+                                <div class="heading">@Model.Value("planTitle")</div>
+                                <div class="desc">
+                                    @Model.Value("planContent")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description-head">
+                        <div class="row">
+                            <div class="col-lg-6 des-image order-2">
+                                <img src="@(amenityImage != null ? amenityImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@Model.Value("amenityTitle")">
+                            </div>
+                            <div class="col-lg-6 des-content order-1">
+                                <div class="heading">@Model.Value("amenityTitle")</div>
+                                <div class="desc">
+                                    @Model.Value("amenityContent")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description-head">
+                        <div class="row">
+                            <div class="col-lg-12 des-content">
+                                <div class="heading">@Model.Value("courseTitle")</div>
+                                <div class="row">
+                                    @if (courseImages != null && courseImages.Any())
+                                    {
+                                        foreach (var item in courseImages)
+                                        {
+                                            <div class="col-lg-3 col-md-4 col-6"><a href="#"><img src="@(item.GetCropUrl(258, 172, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))" alt=""></a></div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description-head">
+                        <div class="row">
+                            <div class="col-lg-12 des-content">
+                                @if (!string.IsNullOrEmpty(Model.Value<string>("courseVideo")))
+                                {
+                                    <div class="heading">@Model.Value("courseVideoTitle")</div>
+                                    <div class="video-wrap">
+                                        @Html.Raw(Model.Value("courseVideo"))
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item" id="tab_2">
+                    <div class="description-head">
+                        <div class="row">
+                            <div class="col-lg-6 des-image order-1">
+                                <img src="@(planImage != null ? planImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@Model.Value("planTitle")">
+                            </div>
+                            <div class="col-lg-6 des-content order-2">
+                                <div class="heading">@Model.Value("planTitle")</div>
+                                <div class="desc">
+                                    @Model.Value("planContent")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item" id="tab_3">
+                    <div class="description-head">
+                        <div class="row">
+                            <div class="col-lg-6 des-image order-2">
+                                <img src="@(amenityImage != null ? amenityImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@Model.Value("amenityTitle")">
+                            </div>
+                            <div class="col-lg-6 des-content order-1">
+                                <div class="heading">@Model.Value("amenityTitle")</div>
+                                <div class="desc">
+                                    @Model.Value("amenityContent")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item" id="tab_4">
+                    <div class="description-head">
+                        <div class="row">
+                            <div class="col-lg-12 des-content">
+                                <div class="heading">@Model.Value("courseTitle")</div>
+                                <div class="row">
+                                    @if (courseImages != null && courseImages.Any())
+                                    {
+                                        foreach (var item in courseImages)
+                                        {
+                                            <div class="col-lg-3 col-md-4 col-6"><a href="@item.Url()" data-fancybox="gallery"><img src="@(item.GetCropUrl(258, 172, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))" alt=""></a></div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item" id="tab_5">
+                    <div class="description-head">
+                        <div class="row">
+                            <div class="col-lg-12 des-content">
+                                @if (!string.IsNullOrEmpty(Model.Value<string>("courseVideo")))
+                                {
+                                    <div class="heading">@Model.Value("courseVideoTitle")</div>
+                                    <div class="video-wrap">
+                                        @Html.Raw(Model.Value("courseVideo"))
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

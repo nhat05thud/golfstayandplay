@@ -1,0 +1,41 @@
+﻿@using GolfStayAndPlay.Models
+@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var home = Umbraco.AssignedContentItem.Root();
+}
+
+@if (Request.Params["id"] != null && !string.IsNullOrEmpty(Request.Params["id"].ToString()))
+{
+    var package = Umbraco.Content(Request.Params["id"]);
+    if (package != null)
+    {
+        <section class="checkout-section mgb-120">
+            <div class="container">
+                <h2 class="content-heading-title f-oswald">Order Information</h2>
+                <ul class="mgb-30">
+                    <li><b>Package: </b> @package.Name</li>
+                    <li><b>Price: </b> $ @(package.Value<decimal>("price"))</li>
+                </ul>
+                <div class="our-form">
+                    @Html.Partial("~/Views/Partials/CheckOut/_CheckOut.cshtml", new CheckOutModel
+                    {
+                        CultureLcid = System.Globalization.CultureInfo.CurrentUICulture.LCID,
+                        PackageId = package.Id
+                    })
+                </div>
+            </div>
+        </section>
+    }
+    else
+    {
+        <script>
+            window.location.href = '@home.Url(mode: UrlMode.Absolute)';
+        </script>
+    }
+}
+else
+{
+    <script>
+        window.location.href = '@home.Url(mode: UrlMode.Absolute)';
+    </script>
+}

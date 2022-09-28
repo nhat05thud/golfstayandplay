@@ -1,0 +1,128 @@
+﻿@using Umbraco.Web.Models
+@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var home = Umbraco.AssignedContentItem.Root();
+    var searchPage = home.DescendantOfType("search");
+    var languages = home.Cultures;
+    var logo = home.Value<IPublishedContent>("logo");
+    var logoMobile = home.Value<IPublishedContent>("logoMobile");
+}
+<header id="header">
+    <div class="container">
+        <div class="row justify-content-between align-items-center hidden-1024">
+            <div class="col-lg-3 col-3">
+                <a href="@home.Url()"><img src="@(logo != null ? logo.GetCropUrl(276, 86, furtherOptions: "&slimmage=true") : "/images/logo.png")" alt="logo"></a>
+            </div>
+            <div class="col-lg-7 col-6">
+                <ul id="menu" class="d-flex justify-content-between align-items-center">
+                    @{
+                        var lstNavigation = home.Children().Where(x => !x.ContentType.Alias.Equals("contact") && !x.ContentType.Alias.Equals("search") && !x.ContentType.Alias.Equals("checkOut"));
+                    }
+                    @foreach (var item in lstNavigation)
+                    {
+                        if (!item.ContentType.Alias.Equals("tripIdeas") && !item.ContentType.Alias.Equals("about"))
+                        {
+                            <li class="has-child @(item.IsAncestorOrSelf(Model) ? "active" : null)">
+                                <a href="@(item.ContentType.Alias.Equals("packages") ? item.Children.FirstOrDefault()?.Url() : item.ContentType.Alias.Equals("courses") ? "javascript:void(0);" : item.Url())">
+                                    @item.Name
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                @if (item.Children().Count() > 0)
+                                {
+                                    <ul>
+                                        @foreach (var li in item.Children())
+                                        {
+                                            <li class="@(li.IsAncestorOrSelf(Model) ? "active" : null)"><a href="@li.Url()">@li.Name</a></li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="@(item.IsAncestorOrSelf(Model) ? "active" : null)"><a href="@item.Url()">@item.Name</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="col-lg-2 col-3">
+                <div class="d-flex justify-content-end align-items-center">
+                    <button type="button" class="search-button"><i aria-hidden="true" class="fas fa-search"></i></button>
+                    <div id="language">
+                        @foreach (var (culture, infos) in languages)
+                        {
+                            var flag = home.Value<IPublishedContent>("language", culture);
+                            <a href="@Umbraco.AssignedContentItem.Url(culture)"><img src="@(flag != null ? flag.Url() : "/images/en.jpg")" alt="@culture"></a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="show-1024">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-3">
+                    <button type="button" class="search-button"><i aria-hidden="true" class="fas fa-search"></i></button>
+                </div>
+                <div class="col-6">
+                    <a href="@home.Url()"><img src="@(logoMobile != null ? logoMobile.GetCropUrl(276, 86, furtherOptions: "&slimmage=true") : "/images/logo.png")" alt="logo"></a>
+                </div>
+                <div class="col-3">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <div id="menu-mo"><i class="fas fa-bars"></i></div>
+                        <div id="menu-mobile__container">
+                            <div class="menu-mobile__container-inner">
+                                <div id="close-menu"><i class="fas fa-times"></i></div>
+                                <div class="mobile-language">
+                                    @foreach (var (culture, infos) in languages)
+                                    {
+                                        var flag = home.Value<IPublishedContent>("language", culture);
+                                        <a href="@Umbraco.AssignedContentItem.Url(culture)"><img src="@(flag != null ? flag.Url() : "/images/en.jpg")" alt="@culture"></a>
+                                    }
+                                </div>
+                                <div id="close-child"><i class="fas fa-angle-left"></i></div>
+                                <ul id="mobile-ul">
+                                    @foreach (var item in lstNavigation)
+                                    {
+                                        if (!item.ContentType.Alias.Equals("tripIdeas") && !item.ContentType.Alias.Equals("about"))
+                                        {
+                                            <li class="has-child @(item.IsAncestorOrSelf(Model) ? "active" : null)">
+                                                <a href="@(item.ContentType.Alias.Equals("packages") ? item.Children.FirstOrDefault()?.Url() : item.ContentType.Alias.Equals("courses") ? "javascript:void(0);" : item.Url())">
+                                                    @item.Name
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                                @if (item.Children().Count() > 0)
+                                                {
+                                                    <ul>
+                                                        @foreach (var li in item.Children())
+                                                        {
+                                                            <li class="@(li.IsAncestorOrSelf(Model) ? "active" : null)"><a href="@li.Url()">@li.Name</a></li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="@(item.IsAncestorOrSelf(Model) ? "active" : null)"><a href="@item.Url()">@item.Name</a></li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="search__popup">
+            <div class="search__popup-content">
+                <form class="search-form" action="@(searchPage != null ? searchPage.Url(mode: UrlMode.Absolute) : "/")" method="get">
+                    <label class="search__label">
+                        <input type="search" placeholder="Search …" value="" name="keyword" autocomplete="off">
+                    </label>
+                    <button type="submit"><i aria-hidden="true" class="fas fa-search"></i></button>
+                </form>
+                <button type="button" class="search__popup-close"><i aria-hidden="true" class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </div>
+</header>

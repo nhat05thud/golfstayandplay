@@ -1,0 +1,53 @@
+﻿@using Umbraco.Web.Models
+@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var searchQuery = Request.QueryString["keyword"];
+    var culture = System.Globalization.CultureInfo.CurrentCulture;
+}
+<section class="section-search mgb-120">
+    <div class="container">
+        @{
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                var results = Umbraco.ContentQuery.Search(searchQuery, culture.Name).Where(x => x.Content.ContentType.Alias.Equals("package") || x.Content.ContentType.Alias.Equals("destination") || x.Content.ContentType.Alias.Equals("course") || x.Content.ContentType.Alias.Equals("tripIdea"));
+                <br />
+                <p>@Umbraco.GetDictionaryValue("Search.ResultLabel"): <strong>@searchQuery</strong></p>
+                <br />
+                if (results.Any())
+                {
+                    <div class="row">
+                        @foreach (var item in results)
+                        {
+                            var thumb = item.Content.Value<IPublishedContent>("image");
+                            <div class="col-lg-4">
+                                <div class="package-item">
+                                    <div class="img">
+                                        <a href="@item.Content.Url()">
+                                            <img src="@(thumb != null ? thumb.GetCropUrl(355, 235, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/355x235")" alt="@item.Content.Name">
+                                        </a>
+                                        <span>@item.Content.Parent.Name</span>
+                                    </div>
+                                    <div class="content">
+                                        <h3><a href="@item.Content.Url()">@item.Content.Name</a></h3>
+                                        <div class="desc">
+                                            @item.Content.Value("description")
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <a href="@item.Content.Url()" class="read-more">@Umbraco.GetDictionaryValue("TripIdea.ReadMore") »</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center" style="padding: 30px 0;">
+                        <i>@Umbraco.GetDictionaryValue("Search.NoResult"): <b>@searchQuery</b></i>
+                    </div>
+                }
+            }
+        }
+    </div>
+</section>

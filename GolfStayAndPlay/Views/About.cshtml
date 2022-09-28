@@ -1,0 +1,85 @@
+﻿@using GolfStayAndPlay.Models
+@using Umbraco.Web.Models
+@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var image = Model.Value<IPublishedContent>("image");
+    var packageUrl = Model.Value<IPublishedContent>("packageUrl");
+}
+
+<section class="section-our-difference mgb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 masonry-image">
+                <img src="@(image != null ? image.GetCropUrl(540, 540, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/540x540")" alt="@Model.Name">
+            </div>
+            <div class="col-lg-6 masonty-content">
+                <div class="heading-page">@Model.Name.ToUpper()</div>
+                <div class="heading-title">@(Model.Value<string>("title").ToUpper())</div>
+                <div class="description">
+                    @Model.Value("description")
+                </div>
+                <div class="content">
+                    @Model.Value("content")
+                </div>
+                @if (packageUrl != null)
+                {
+                    <a href="@packageUrl.Url()" class="learn-more"><i aria-hidden="true" class="fas fa-golf-ball"></i> @Model.Value("packageButtonText")</a>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+@{
+    var aboutNested = Model.Value<IEnumerable<IPublishedElement>>("aboutNested");
+}
+@if (aboutNested != null && aboutNested.Any())
+{
+    foreach (var item in aboutNested)
+    {
+        var thumb = item.Value<IPublishedContent>("image");
+        <section class="section-our">
+            <div class="container">
+                <div class="heading">
+                    <h2 class="main-heading-title">@(item.Value<string>("title").ToUpper())</h2>
+                </div>
+                <div class="our-text-grid">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <img src="@(thumb != null ? thumb.GetCropUrl(434, 288, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/434x288")" alt="@item.Value("title")">
+                        </div>
+                        <div class="col-lg-7 content-wrapper">
+                            @item.Value("content")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+}
+<section class="section-our-form">
+    <div class="container">
+        <div class="heading">
+            <h2 class="main-heading-title">@Model.Value("formTitle")</h2>
+            <div class="heading-description">
+                @Model.Value("formDescription")
+            </div>
+        </div>
+        <div class="our-form">
+            @Html.Partial("~/Views/Partials/About/_OurForm.cshtml", new OurModel { CultureLcid = System.Globalization.CultureInfo.CurrentUICulture.LCID })
+        </div>
+    </div>
+</section>
+@{
+    var packages = Model.Root().DescendantOfType("packages");
+}
+@if (packages != null)
+{
+    <section class="section-small-package">
+        <div class="container">
+            <div class="divider"><span class="divider-separator"></span></div>
+            <div class="content">
+                @packages.Value("note")
+            </div>
+        </div>
+    </section>
+}

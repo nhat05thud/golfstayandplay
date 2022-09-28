@@ -1,0 +1,84 @@
+﻿@using Umbraco.Web.Models
+@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var packages = Model.Parent;
+    var images = Model.Value<IEnumerable<IPublishedContent>>("images");
+    var learnNowUrl = Model.Value<Link>("learnNowUrl");
+}
+<section class="section-our-difference section-page-package">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 masonry-image-grid">
+                <div class="grid d-flex justify-content-between align-items-center flex-wrap">
+                    @if (images != null && images.Any())
+                    {
+                        foreach (var item in images.Take(4))
+                        {
+                            <div class="item">
+                                <a href="@item.Url()" data-fancybox="gallery" class="image" style="background-image: url(@item.GetCropUrl(300, 300, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))"></a>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="col-lg-6 masonty-content">
+                <div class="heading-page">@(Model.Value<string>("cate").ToUpper())</div>
+                <div class="heading-title">@(Model.Value<string>("title").ToUpper())</div>
+                <div class="description">
+                    @Model.Value("description")
+                </div>
+                <div class="content">
+                    @Model.Value("content")
+                </div>
+                <a href="@(learnNowUrl != null ? learnNowUrl.Url : "#")" class="learn-more">@Model.Value("learnNowText")</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section-package">
+    <div class="container">
+        <div class="heading">
+            <h2 class="main-heading-title">@(packages.Value<string>("perfectPackageTitle").ToUpper())</h2>
+            <div class="heading-description">
+                @packages.Value("perfectPackageContent")
+            </div>
+        </div>
+        @{
+            var lstPackages = Model.Children;
+        }
+        <div class="row package-list">
+            @foreach (var item in lstPackages)
+            {
+                var thumb = item.Value<IPublishedContent>("image");
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="package-item">
+                        <div class="img">
+                            <a href="@item.Url()">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(355, 235, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/355x235")" alt="@item.Name">
+                            </a>
+                            <span>@packages.Name</span>
+                        </div>
+                        <div class="content">
+                            <h3><a href="@item.Url()">@item.Name</a></h3>
+                            <div class="desc">
+                                @item.Value("description")
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <a href="@item.Url()" class="read-more">@Umbraco.GetDictionaryValue("PackageCate.CheckOutOfTheDeal") »</a>
+                                <span class="price">$@item.Value("price")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<section class="section-small-package">
+    <div class="container">
+        <div class="divider"><span class="divider-separator"></span></div>
+        <div class="content">
+            @packages.Value("note")
+        </div>
+    </div>
+</section>
