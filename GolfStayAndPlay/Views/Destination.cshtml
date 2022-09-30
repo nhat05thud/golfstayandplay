@@ -17,7 +17,7 @@
                 <div class="col-lg-7 des-content">
                     <div class="heading">@Model.Value("title")</div>
                     <div class="desc">
-                        @Model.Value("description")
+                        @Model.Value("content")
                     </div>
                     @{
                         var destinationNested = Model.Value<IEnumerable<IPublishedElement>>("destinationNested");
@@ -98,7 +98,7 @@
                                     {
                                         foreach (var item in courseImages)
                                         {
-                                            <div class="col-lg-3 col-md-4 col-6"><a href="#"><img src="@(item.GetCropUrl(258, 172, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))" alt=""></a></div>
+                                            <div class="col-lg-3 col-md-4 col-6 mgb-30 img-full"><a href="@item.Url()" data-fancybox="gallery"><img src="@(item.GetCropUrl(258, 172, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))" alt=""></a></div>
                                         }
                                     }
                                 </div>
@@ -159,7 +159,7 @@
                                     {
                                         foreach (var item in courseImages)
                                         {
-                                            <div class="col-lg-3 col-md-4 col-6"><a href="@item.Url()" data-fancybox="gallery"><img src="@(item.GetCropUrl(258, 172, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))" alt=""></a></div>
+                                            <div class="col-lg-3 col-md-4 col-6 mgb-30 img-full"><a href="@item.Url()" data-fancybox="gallery"><img src="@(item.GetCropUrl(258, 172, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))" alt=""></a></div>
                                         }
                                     }
                                 </div>
