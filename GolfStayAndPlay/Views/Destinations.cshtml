@@ -1,6 +1,7 @@
 ﻿@using Umbraco.Web.Models
 @inherits Umbraco.Web.Mvc.UmbracoViewPage
 @{
+    var home = Umbraco.AssignedContentItem.Root(); 
 }
 
 <section class="section-package section-page-destination">
@@ -12,17 +13,45 @@
             </div>
         </div>
         @{
-            var lstDestinations = Model.DescendantsOfType("destination");
+            var lstDestinationsPackage = home.DescendantsOfType("package");
         }
         <div class="row destination-list">
-            @foreach (var item in lstDestinations)
+            @foreach (var item in lstDestinationsPackage)
             {
                 var thumb = item.Value<IPublishedContent>("image");
                 <div class="col-lg-4 col-md-6 col-12">
                     <div class="destination-item">
                         <div class="img">
                             <a href="@item.Url()">
-                                <img src="@(thumb != null ? thumb.GetCropUrl(340, 244, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/340x244")" alt="@item.Name">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(340, 244, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/340x244")" alt="@(!string.IsNullOrEmpty(thumb.Value<string>("umbracoAltText")) ? thumb.Value("umbracoAltText") : item.Name)">
+                            </a>
+                        </div>
+                        <div class="content">
+                            <h3><a href="@item.Url()">@item.Name</a></h3>
+                            <a href="@item.Url()" class="read-more">@Umbraco.GetDictionaryValue("Destination.ReadMore") <i aria-hidden="true" class="fas fa-long-arrow-alt-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>  
+        <div class="heading">
+            <h1 class="main-heading-title">@(Model.Value<string>("homeTitle").ToUpper())</h1>
+            <div class="heading-description">
+                @Model.Value("homeDescription")
+            </div>
+        </div>
+        @{
+            var lstDestinationsCourse = home.DescendantsOfType("course");
+        }
+        <div class="row destination-list">
+            @foreach (var item in lstDestinationsCourse)
+            {
+                var thumb = item.Value<IPublishedContent>("image");
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="destination-item">
+                        <div class="img">
+                            <a href="@item.Url()">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(340, 244, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/340x244")" alt="@(!string.IsNullOrEmpty(thumb.Value<string>("umbracoAltText")) ? thumb.Value("umbracoAltText") : item.Name)">
                             </a>
                         </div>
                         <div class="content">

@@ -54,7 +54,7 @@
                     <div class="package-item">
                         <div class="img">
                             <a href="@item.Url()">
-                                <img src="@(thumb != null ? thumb.GetCropUrl(355, 235, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/355x235")" alt="@item.Name">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(355, 235, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/355x235")" alt="@(!string.IsNullOrEmpty(thumb.Value<string>("umbracoAltText")) ? thumb.Value("umbracoAltText") : item.Name)">
                             </a>
                             <span>@packages.Name</span>
                         </div>

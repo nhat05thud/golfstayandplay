@@ -76,7 +76,7 @@
                         var thumb = item.Value<IPublishedContent>("image");
                         <div class="swiper-slide">
                             <a href="@item.Url()">
-                                <img src="@(thumb != null ? thumb.GetCropUrl(370, 370, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/370x370")" alt="@item.Name">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(370, 370, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/370x370")" alt="@(!string.IsNullOrEmpty(thumb.Value<string>("umbracoAltText")) ? thumb.Value("umbracoAltText") : item.Name)">
                             </a>
                             <div class="package-content">
                                 <h5 class="package-title">@item.Name</h5>
@@ -94,29 +94,29 @@
     </section>
 }
 @{
-    var destinations = Model.DescendantOfType("destinations");
+    var courses = Model.DescendantOfType("courses");
 }
-@if (destinations != null)
+@if (courses != null)
 {
     <section class="section-package">
         <div class="container">
             <div class="heading">
-                <h2 class="main-heading-title">@(destinations.Value<string>("homeTitle").ToUpper())​</h2>
+                <h2 class="main-heading-title">@(courses.Value<string>("title").ToUpper())​</h2>
                 <div class="heading-description">
-                    @destinations.Value("homeDescription")
+                    @courses.Value("description")
                 </div>
             </div>
             @{
-                var lstDestinations = destinations.DescendantsOfType("destination").OrderByDescending(x => x.CreateDate).Take(5);
+                var lstCourse = courses.DescendantsOfType("course").OrderByDescending(x => x.CreateDate).Take(5);
             }
             <div class="packages-swiper swiper">
                 <div class="swiper-wrapper">
-                    @foreach (var item in lstDestinations)
+                    @foreach (var item in lstCourse)
                     {
                         var thumb = item.Value<IPublishedContent>("image");
                         <div class="swiper-slide">
                             <a href="@item.Url()">
-                                <img src="@(thumb != null ? thumb.GetCropUrl(370, 370, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/370x370")" alt="@item.Name">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(370, 370, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/370x370")" alt="@(!string.IsNullOrEmpty(thumb.Value<string>("umbracoAltText")) ? thumb.Value("umbracoAltText") : item.Name)">
                             </a>
                             <div class="package-content">
                                 <h5 class="package-title">@item.Name</h5>
@@ -147,7 +147,7 @@
                 </div>
             </div>
             @{
-                var lstTripIdeas = destinations.DescendantsOfType("tripIdea").OrderByDescending(x => x.CreateDate).Take(5);
+                var lstTripIdeas = tripIdeas.DescendantsOfType("tripIdea").OrderByDescending(x => x.CreateDate).Take(5);
             }
             <div class="trip-ideas-swiper swiper">
                 <div class="swiper-wrapper">
@@ -156,7 +156,7 @@
                         var thumb = item.Value<IPublishedContent>("image");
                         <div class="swiper-slide">
                             <a href="@item.Url()">
-                                <img src="@(thumb != null ? thumb.GetCropUrl(370, 370, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/370x370")" alt="@item.Name">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(370, 370, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/370x370")" alt="@(!string.IsNullOrEmpty(thumb.Value<string>("umbracoAltText")) ? thumb.Value("umbracoAltText") : item.Name)">
                             </a>
                             <div class="trip-content">
                                 <h4 class="trip-title">@item.Name</h4>

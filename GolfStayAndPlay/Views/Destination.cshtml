@@ -12,7 +12,7 @@
             <h1>@Model.Name</h1>
             <div class="row">
                 <div class="col-lg-5 des-image">
-                    <img src="@(image != null ? image.GetCropUrl(458, 450, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/458x450")" alt="@Model.Name">
+                    <img src="@(image != null ? image.GetCropUrl(458, 450, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/458x450")" alt="@(!string.IsNullOrEmpty(image.Value<string>("umbracoAltText")) ? image.Value("umbracoAltText") : Model.Name)">
                 </div>
                 <div class="col-lg-7 des-content">
                     <div class="heading">@Model.Value("title")</div>
@@ -30,7 +30,7 @@
                                 var thumb = item.Value<IPublishedContent>("image");
                                 <div class="item">
                                     <figure class="image-box">
-                                        <img src="@(thumb != null ? thumb.GetCropUrl(50, 50, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "/images/head-1.png")" alt="@item.Value("title")">
+                                        <img src="@(thumb != null ? thumb.GetCropUrl(50, 50, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "/images/head-1.png")" alt="@(!string.IsNullOrEmpty(thumb.Value<string>("umbracoAltText")) ? thumb.Value("umbracoAltText") : item.Value("title"))">
                                     </figure>
                                     <div class="content-box">
                                         @item.Value("content")
@@ -66,7 +66,7 @@
                     <div class="description-head">
                         <div class="row">
                             <div class="col-lg-6 des-image order-1">
-                                <img src="@(planImage != null ? planImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@Model.Value("planTitle")">
+                                <img src="@(planImage != null ? planImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@(!string.IsNullOrEmpty(planImage.Value<string>("umbracoAltText")) ? planImage.Value("umbracoAltText") : Model.Value("planTitle"))">
                             </div>
                             <div class="col-lg-6 des-content order-2">
                                 <div class="heading">@Model.Value("planTitle")</div>
@@ -79,7 +79,7 @@
                     <div class="description-head">
                         <div class="row">
                             <div class="col-lg-6 des-image order-2">
-                                <img src="@(amenityImage != null ? amenityImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@Model.Value("amenityTitle")">
+                                <img src="@(amenityImage != null ? amenityImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@(!string.IsNullOrEmpty(amenityImage.Value<string>("umbracoAltText")) ? amenityImage.Value("umbracoAltText") : Model.Value("amenityTitle"))">
                             </div>
                             <div class="col-lg-6 des-content order-1">
                                 <div class="heading">@Model.Value("amenityTitle")</div>
@@ -98,7 +98,7 @@
                                     {
                                         foreach (var item in courseImages)
                                         {
-                                            <div class="col-lg-3 col-md-4 col-6 mgb-30 img-full"><a href="@item.Url()" data-fancybox="gallery"><img src="@(item.GetCropUrl(258, 172, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))" alt=""></a></div>
+                                            <div class="col-lg-3 col-md-4 col-6 mgb-30 img-full"><a href="@item.Url()" data-fancybox="gallery"><img src="@(item.GetCropUrl(258, 172, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))" alt="@(!string.IsNullOrEmpty(item.Value<string>("umbracoAltText")) ? item.Value("umbracoAltText") : Model.Value("courseTitle"))"></a></div>
                                         }
                                     }
                                 </div>
@@ -123,7 +123,7 @@
                     <div class="description-head">
                         <div class="row">
                             <div class="col-lg-6 des-image order-1">
-                                <img src="@(planImage != null ? planImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@Model.Value("planTitle")">
+                                <img src="@(planImage != null ? planImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@(!string.IsNullOrEmpty(planImage.Value<string>("umbracoAltText")) ? planImage.Value("umbracoAltText") : Model.Value("planTitle"))">
                             </div>
                             <div class="col-lg-6 des-content order-2">
                                 <div class="heading">@Model.Value("planTitle")</div>
@@ -138,7 +138,7 @@
                     <div class="description-head">
                         <div class="row">
                             <div class="col-lg-6 des-image order-2">
-                                <img src="@(amenityImage != null ? amenityImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@Model.Value("amenityTitle")">
+                                <img src="@(amenityImage != null ? amenityImage.GetCropUrl(510, 430, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/510x430")" alt="@(!string.IsNullOrEmpty(amenityImage.Value<string>("umbracoAltText")) ? amenityImage.Value("umbracoAltText") : Model.Value("amenityTitle"))">
                             </div>
                             <div class="col-lg-6 des-content order-1">
                                 <div class="heading">@Model.Value("amenityTitle")</div>
@@ -159,7 +159,7 @@
                                     {
                                         foreach (var item in courseImages)
                                         {
-                                            <div class="col-lg-3 col-md-4 col-6 mgb-30 img-full"><a href="@item.Url()" data-fancybox="gallery"><img src="@(item.GetCropUrl(258, 172, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))" alt=""></a></div>
+                                            <div class="col-lg-3 col-md-4 col-6 mgb-30 img-full"><a href="@item.Url()" data-fancybox="gallery"><img src="@(item.GetCropUrl(258, 172, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true"))" alt="@(!string.IsNullOrEmpty(item.Value<string>("umbracoAltText")) ? item.Value("umbracoAltText") : Model.Value("courseTitle"))"></a></div>
                                         }
                                     }
                                 </div>

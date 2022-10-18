@@ -22,7 +22,7 @@
                     <div class="destination-item">
                         <div class="img">
                             <a href="@item.Url()">
-                                <img src="@(thumb != null ? thumb.GetCropUrl(340, 244, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/340x244")" alt="@item.Name">
+                                <img src="@(thumb != null ? thumb.GetCropUrl(340, 244, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/340x244")" alt="@(!string.IsNullOrEmpty(thumb.Value<string>("umbracoAltText")) ? thumb.Value("umbracoAltText") : item.Name)">
                             </a>
                         </div>
                         <div class="content">

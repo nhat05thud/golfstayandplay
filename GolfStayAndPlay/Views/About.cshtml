@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 masonry-image">
-                <img src="@(image != null ? image.GetCropUrl(540, 540, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/540x540")" alt="@Model.Name">
+                <img src="@(image != null ? image.GetCropUrl(540, 540, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/540x540")" alt="@(!string.IsNullOrEmpty(image.Value<string>("umbracoAltText")) ? image.Value("umbracoAltText") : Model.Name)">
             </div>
             <div class="col-lg-6 masonty-content">
                 <div class="heading-page">@Model.Name.ToUpper()</div>
@@ -45,7 +45,7 @@
                 <div class="our-text-grid">
                     <div class="row">
                         <div class="col-lg-5">
-                            <img src="@(thumb != null ? thumb.GetCropUrl(434, 288, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/434x288")" alt="@item.Value("title")">
+                            <img src="@(thumb != null ? thumb.GetCropUrl(434, 288, imageCropMode:ImageCropMode.Crop, furtherOptions: "&bgcolor=fff&slimmage=true") : "https://via.placeholder.com/434x288")" alt="@(!string.IsNullOrEmpty(thumb.Value<string>("umbracoAltText")) ? thumb.Value("umbracoAltText") : item.Value("title"))">
                         </div>
                         <div class="col-lg-7 content-wrapper">
                             @item.Value("content")
